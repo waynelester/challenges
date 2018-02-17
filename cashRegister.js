@@ -14,22 +14,13 @@ const valueInCents = {
 function checkCashRegister(price, cash, cashInDrawer) {
     if (cash < price) { return "Customer didn't pay enough" };
     const change = (cash - price) * 100;
-
-    // change to give back to the customer
-    // similar to cashInDrawer, array of arrays
-    // this is what we return at the end (see above*)
     const customerChange = [];
-
     let totalInDrawer = 0;
-
-    // leftovers should be 0 if we can give them change back
-    // if it's anything but 0, we didn't have enough to give them full change
     const leftovers = cashInDrawer.reverse().reduce((changeLeft, denomination) => {
-        const bill = denomination[0]; // 'TEN', 'DIME', etc.
-        const amountInRegister = denomination[1] * 100; // total amount of this bill in the drawer
+        const bill = denomination[0];
+        const amountInRegister = denomination[1] * 100;
         totalInDrawer += amountInRegister;
-        // calculate how much of this bill we should pay out to the customer
-        /* lots of calculations here, probably */
+
         let amountPaidtoCustomer;
         if (amountInRegister <= changeLeft) {
             amountPaidtoCustomer = amountInRegister;
@@ -49,7 +40,7 @@ function checkCashRegister(price, cash, cashInDrawer) {
     return customerChange;
 }
 
-let output = checkCashRegister(3.26, 100, [
+let outputWorks = checkCashRegister(3.26, 100, [
     ["PENNY", 1.01],
     ["NICKEL", 2.05],
     ["DIME", 3.10],
@@ -60,4 +51,31 @@ let output = checkCashRegister(3.26, 100, [
     ["TWENTY", 60],
     ["ONE HUNDRED", 100]
 ])
-console.log(output)
+
+let outputInsufficient = checkCashRegister(19.5, 20, [
+    ["PENNY", 0.01],
+    ["NICKEL", 0],
+    ["DIME", 0],
+    ["QUARTER", 0],
+    ["ONE", 0],
+    ["FIVE", 0],
+    ["TEN", 0],
+    ["TWENTY", 0],
+    ["ONE HUNDRED", 0]
+])
+
+let outputClosed = checkCashRegister(19.5, 20, [
+    ["PENNY", 0.5],
+    ["NICKEL", 0],
+    ["DIME", 0],
+    ["QUARTER", 0],
+    ["ONE", 0],
+    ["FIVE", 0],
+    ["TEN", 0],
+    ["TWENTY", 0],
+    ["ONE HUNDRED", 0]
+])
+
+console.log(outputWorks)
+console.log(outputInsufficient)
+console.log(outputClosed)

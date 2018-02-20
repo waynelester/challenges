@@ -24,9 +24,13 @@ function checkCashRegister(price, cash, cashInDrawer) {
         let amountPaidtoCustomer;
         if (amountInRegister <= changeLeft) {
             amountPaidtoCustomer = amountInRegister;
+            console.log("Change left: " + changeLeft + " / Amount Paid: " + amountPaidtoCustomer + " with " + bill)
+
         }
         else {
             amountPaidtoCustomer = Math.floor(changeLeft / valueInCents[bill]) * valueInCents[bill];
+            console.log("Change left: " + changeLeft + " / Amount Paid: " + amountPaidtoCustomer + " with " + bill)
+
         }
         if (amountPaidtoCustomer > 0) {
             customerChange.push([bill, amountPaidtoCustomer / 100]);
